@@ -1,3 +1,4 @@
+
 name: Build Remote Laptop APK
 
 on:
@@ -11,43 +12,43 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17 (cloud runner only)
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK (cloud runner only)
+      - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: 11076708
+          cmdline-tools-version: 12266719
           accept-android-sdk-licenses: true
           packages: |
             platform-tools
             platforms;android-35
             build-tools;35.0.0
 
-      - name: Install Gradle 8.9 (cloud runner only)
+      - name: Install Gradle
         run: |
           curl -fsSL https://services.gradle.org/distributions/gradle-8.9-bin.zip -o /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /opt
           echo "/opt/gradle-8.9/bin" >> "$GITHUB_PATH"
 
-      - name: Verify Android toolchain
+      - name: Verify tools
         run: |
           java -version
           sdkmanager --version
-          adb version
           gradle --version
 
-      - name: Build debug APK
+      - name: Build APK
         run: gradle --no-daemon assembleDebug
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: RemoteLaptopBluetooth-debug
