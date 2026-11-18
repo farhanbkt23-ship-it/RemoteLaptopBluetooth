@@ -98,3 +98,7 @@ JDK 17, Android SDK, dan Gradle dipasang sementara di komputer cloud GitHub Acti
 - GitHub Actions menjalankan build di runner cloud GitHub. Ketersediaan menit build dan ketentuan untuk repository private mengikuti paket/kuota GitHub akun.
 - APK yang dihasilkan adalah **debug APK**, cocok untuk pengujian pribadi. Untuk distribusi luas, buat signed release APK dengan keystore yang dijaga rahasia.
 - Workflow ini menginstal toolchain di runner cloud setiap build. Koneksi internet diperlukan oleh runner.
+
+
+## Perbaikan workflow Android SDK
+Workflow mematok Android Command-line Tools revision 11076708 melalui android-actions/setup-android@v3. Lisensi dan paket Android API 35 dipasang di runner cloud.

@@ -23,17 +23,26 @@ jobs:
 
       - name: Set up Android SDK (cloud runner only)
         uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
-        run: |
-          yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+        with:
+          cmdline-tools-version: 11076708
+          accept-android-sdk-licenses: true
+          packages: |
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
 
       - name: Install Gradle 8.9 (cloud runner only)
         run: |
           curl -fsSL https://services.gradle.org/distributions/gradle-8.9-bin.zip -o /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /opt
           echo "/opt/gradle-8.9/bin" >> "$GITHUB_PATH"
+
+      - name: Verify Android toolchain
+        run: |
+          java -version
+          sdkmanager --version
+          adb version
+          gradle --version
 
       - name: Build debug APK
         run: gradle --no-daemon assembleDebug
